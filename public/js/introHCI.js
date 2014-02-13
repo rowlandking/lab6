@@ -17,6 +17,7 @@ function initializePage() {
 /*
  * Make an AJAX call to retrieve project details and add it in
  */
+var idNum= 0;
 function addProjectDetails(e) {
 	// Prevent following the link
 	e.preventDefault();
@@ -25,14 +26,41 @@ function addProjectDetails(e) {
 	var projectID = $(this).closest('.project').attr('id');
 	// get rid of 'project' from the front of the id 'project3'
 	var idNumber = projectID.substr('project'.length);
+	var url = "/project/"+idNumber;
+	idNum = idNumber;
+	$.get(url,newFunction);
+	console.log(url);
+
 
 	console.log("User clicked on project " + idNumber);
 }
 
+function newFunction(result){
+	console.log(result);
+	var projectHTML = '<a href="#" class = "thumbnail">' +
+	'<img src="' + result['image'] + '"class="detailsImage">'+
+	'<p>' + result['title']+'</p>'+
+	'<p><small>'+result['date'] + '</small>'+'</p></a>'+'<p>'+result['summary']+'</p>';
+	$("#project"+idNum+ ".thumbnail").html(projectHTML);
+
+	$("#project"+idNum+" .details").html(projectHTML);
+
+	/*
+	var classvar = idNum+".details";
+	  var htmlString = $(classvar).html();
+  	$( classvar ).text( htmlString +"Foo");*/
+
+
+}
 /*
  * Make an AJAX call to retrieve a color palette for the site
  * and apply it
  */
 function randomizeColors(e) {
 	console.log("User clicked on color button");
+	$.get("/palette",newFunction2);
+}
+
+function newFunction2(){
+
 }
